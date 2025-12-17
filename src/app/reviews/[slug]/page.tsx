@@ -7,36 +7,106 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 
-// ডামি ডেটা (পরে JSON বা Markdown থেকে লোড করব)
-const reviewData = {
-  slug: "samsung-s25",
-  title: "Samsung Galaxy S25 Ultra Review",
-  price: "৳1,49,999",
-  rating: 9.2,
-  pros: ["Best camera in 2025", "Powerful AI features", "Premium build"],
-  cons: ["Expensive", "Heavy"],
-  specs: [
-    { key: "Display", value: "6.8\" Dynamic AMOLED 2X, 120Hz" },
-    { key: "Processor", value: "Snapdragon 8 Gen 4" },
-    { key: "RAM", value: "12GB / 16GB" },
-    { key: "Storage", value: "256GB / 512GB / 1TB" },
-    { key: "Camera", value: "200MP main + 50MP ultra-wide + 10MP telephoto" },
-    { key: "Battery", value: "5000mAh with 45W charging" },
-  ],
-  affiliateLink: "https://www.daraz.com.bd/your-affiliate-link-here", // পরে তোর Daraz affiliate লিঙ্ক দিবি
+const reviewsData: Record<string, any> = {
+  "samsung-s25": {
+    title: "Samsung Galaxy S25 Ultra Review",
+    price: "৳1,49,999",
+    rating: 9.2,
+    pros: ["Best camera in 2025", "Powerful AI features", "Premium build", "S Pen support"],
+    cons: ["Expensive", "Heavy"],
+    specs: [
+      { key: "Display", value: "6.8\" Dynamic AMOLED 2X, 120Hz" },
+      { key: "Processor", value: "Snapdragon 8 Gen 4" },
+      { key: "RAM", value: "12GB / 16GB" },
+      { key: "Camera", value: "200MP main + 50MP ultra-wide" },
+      { key: "Battery", value: "5000mAh, 45W charging" },
+    ],
+    affiliateLink: "https://www.daraz.com.bd/tag/samsung-galaxy-s25/", // তোর affiliate লিঙ্ক দিবি
+  },
+  "iphone-17": {
+    title: "iPhone 17 Pro Max Review",
+    price: "৳1,79,999",
+    rating: 9.5,
+    pros: ["Best video recording", "A19 Bionic chip", "Titanium build", "iOS ecosystem"],
+    cons: ["Very expensive", "No fast charger in box"],
+    specs: [
+      { key: "Display", value: "6.9\" Super Retina XDR, 120Hz" },
+      { key: "Processor", value: "A19 Pro" },
+      { key: "RAM", value: "8GB" },
+      { key: "Camera", value: "48MP triple system" },
+      { key: "Battery", value: "4700mAh, 40W charging" },
+    ],
+    affiliateLink: "https://www.daraz.com.bd/tag/iphone-17/",
+  },
+  "xiaomi-14": {
+    title: "Xiaomi 14 Pro Review",
+    price: "৳79,999",
+    rating: 9.0,
+    pros: ["Best value flagship", "HyperCharge 120W", "Leica camera", "Smooth MIUI"],
+    cons: ["Ads in UI", "Average software update"],
+    specs: [
+      { key: "Display", value: "6.73\" AMOLED, 120Hz" },
+      { key: "Processor", value: "Snapdragon 8 Gen 3" },
+      { key: "RAM", value: "12GB / 16GB" },
+      { key: "Camera", value: "50MP Leica triple" },
+      { key: "Battery", value: "4880mAh, 120W charging" },
+    ],
+    affiliateLink: "https://www.daraz.com.bd/tag/xiaomi-14/",
+  },
+  "nothing-phone-3": {
+    title: "Nothing Phone (3) Review",
+    price: "৳64,999",
+    rating: 8.8,
+    pros: ["Unique Glyph design", "Clean Nothing OS", "Good performance", "Wireless charging"],
+    cons: ["Camera average", "No ultra-wide"],
+    specs: [
+      { key: "Display", value: "6.7\" AMOLED, 120Hz" },
+      { key: "Processor", value: "Snapdragon 8s Gen 3" },
+      { key: "RAM", value: "8GB / 12GB" },
+      { key: "Camera", value: "50MP dual" },
+      { key: "Battery", value: "5000mAh, 50W charging" },
+    ],
+    affiliateLink: "https://www.daraz.com.bd/tag/nothing-phone/",
+  },
+  "oneplus-13": {
+    title: "OnePlus 13 Review",
+    price: "৳89,999",
+    rating: 9.1,
+    pros: ["Fastest charging", "OxygenOS smooth", "Hasselblad camera", "Alert slider"],
+    cons: ["No wireless charging in base model"],
+    specs: [
+      { key: "Display", value: "6.82\" AMOLED, 120Hz" },
+      { key: "Processor", value: "Snapdragon 8 Elite" },
+      { key: "RAM", value: "12GB / 16GB" },
+      { key: "Camera", value: "50MP Hasselblad triple" },
+      { key: "Battery", value: "6000mAh, 100W charging" },
+    ],
+    affiliateLink: "https://www.daraz.com.bd/tag/oneplus-13/",
+  },
+  "google-pixel-9": {
+    title: "Google Pixel 9 Pro Review",
+    price: "৳1,09,999",
+    rating: 9.3,
+    pros: ["Best AI camera", "Clean Android", "7 years update", "Tensor G4 magic"],
+    cons: ["Average battery", "Slow charging"],
+    specs: [
+      { key: "Display", value: "6.7\" OLED, 120Hz" },
+      { key: "Processor", value: "Google Tensor G4" },
+      { key: "RAM", value: "12GB" },
+      { key: "Camera", value: "50MP triple with AI" },
+      { key: "Battery", value: "4700mAh, 45W charging" },
+    ],
+    affiliateLink: "https://www.daraz.com.bd/tag/google-pixel-9/",
+  },
 };
 
 export default function ReviewPage({ params }: { params: { slug: string } }) {
-  const review = reviewData; // পরে params.slug দিয়ে ডেটা লোড করব
+  const review = reviewsData[params.slug] || reviewsData["samsung-s25"]; // fallback
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950">
       <main className="container mx-auto px-4 py-12">
-        <motion.article
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-5xl mx-auto"
-        >
+        <motion.article initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             {review.title}
           </h1>
@@ -46,21 +116,13 @@ export default function ReviewPage({ params }: { params: { slug: string } }) {
             <p className="text-3xl font-bold text-green-600 dark:text-green-400">{review.price}</p>
           </div>
 
-          <img 
-            src="https://images.unsplash.com/photo-1610945265064-0e3f6cf9e3c7?w=800" 
-            alt={review.title} 
-            className="w-full rounded-xl shadow-2xl mb-10"
-          />
-
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <Card>
               <CardHeader><CardTitle>Pros</CardTitle></CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {review.pros.map((pro, i) => (
-                    <li key={i} className="flex items-center gap-2 text-green-600 dark:text-green-400">
-                      ✓ {pro}
-                    </li>
+                  {review.pros.map((pro: string, i: number) => (
+                    <li key={i} className="flex items-center gap-2 text-green-600 dark:text-green-400">✓ {pro}</li>
                   ))}
                 </ul>
               </CardContent>
@@ -70,10 +132,8 @@ export default function ReviewPage({ params }: { params: { slug: string } }) {
               <CardHeader><CardTitle>Cons</CardTitle></CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {review.cons.map((con, i) => (
-                    <li key={i} className="flex items-center gap-2 text-red-600 dark:text-red-400">
-                      ✗ {con}
-                    </li>
+                  {review.cons.map((con: string, i: number) => (
+                    <li key={i} className="flex items-center gap-2 text-red-600 dark:text-red-400">✗ {con}</li>
                   ))}
                 </ul>
               </CardContent>
@@ -91,7 +151,7 @@ export default function ReviewPage({ params }: { params: { slug: string } }) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {review.specs.map((spec, i) => (
+                  {review.specs.map((spec: any, i: number) => (
                     <TableRow key={i}>
                       <TableCell className="font-medium">{spec.key}</TableCell>
                       <TableCell className="text-right">{spec.value}</TableCell>
